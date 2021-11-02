@@ -1,6 +1,7 @@
 <template>
   <div>
-    <cx-assets-table :assets="assets" />
+    <bounce-loader :loading="isLoading" :color="'#68d391'" :size="100" />
+    <cx-assets-table v-if="!isLoading" :assets="assets" />
   </div>
 </template>
 
@@ -13,14 +14,20 @@ export default {
   data() {
     return {
       assets: [],
+      isLoading: false,
     }
   },
   components: { CxAssetsTable },
   created() {
-    api.getAssets().then((assets) => {
-      console.log(assets)
-      this.assets = assets
-    })
+    this.isLoading = true
+    api
+      .getAssets()
+      .then((assets) => {
+        this.assets = assets
+      })
+      .finally(() => {
+        this.isLoading = false
+      })
   },
 }
 </script>
