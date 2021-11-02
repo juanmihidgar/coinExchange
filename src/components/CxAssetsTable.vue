@@ -29,7 +29,15 @@
         <td>
           <b>#{{ asset.rank }}</b>
         </td>
-        <td>{{ asset.name }}</td>
+        <td>
+          <router-link
+            class="hover:underline text-green-600"
+            :to="{ name: 'coin-detail', params: { id: asset.id } }"
+          >
+            {{ asset.name }}
+          </router-link>
+          <small class="ml-1 text-gray-500">{{ asset.symbol }}</small>
+        </td>
         <td>{{ asset.priceUsd | dollar }}</td>
         <td>{{ asset.marketCapUsd | dollar }}</td>
         <td
@@ -41,13 +49,17 @@
         >
           {{ asset.changePercent24Hr | percent }}
         </td>
-        <td class="hidden sm:block"></td>
+        <td class="hidden sm:block">
+          <cx-button @click="goToCoin(asset.id)">Detalle</cx-button>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+import CxButton from '@/components/CxButton'
+
 export default {
   name: 'CxAssetsTable',
 
@@ -55,6 +67,14 @@ export default {
     assets: {
       type: Array,
       default: () => [],
+    },
+  },
+  components: {
+    CxButton,
+  },
+  methods: {
+    goToCoin(id) {
+      this.$router.push({ name: 'coin-detail', params: { id: id } })
     },
   },
 }

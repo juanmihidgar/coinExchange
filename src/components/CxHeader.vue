@@ -5,7 +5,7 @@
         <div class="flex items-center flex-shrink-0 text-white mr-6">
           <cx-icon class="mr-3"></cx-icon>
           <span class="font-semibold text-xl tracking-tight">
-            Coin Exchange
+            <router-link :to="{ name: 'home' }"> Coin Exchange</router-link>
           </span>
         </div>
         <div
