@@ -1,19 +1,17 @@
 <template>
   <main>
     <cx-header></cx-header>
-    <cx-assets-table></cx-assets-table>
+    <router-view class="container px-5 sm:px-20 py-20 flex justify-center" />
   </main>
 </template>
 
 <script>
 import CxHeader from "@/components/CxHeader";
-import CxAssetsTable from "@/components/CxAssetsTable";
 
 export default {
   name: "App",
   components: {
     CxHeader,
-    CxAssetsTable,
   },
 };
 </script>
