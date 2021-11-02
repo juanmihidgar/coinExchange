@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import CxHeader from "@/components/CxHeader";
+import CxHeader from '@/components/CxHeader'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     CxHeader,
   },
-};
+}
 </script>
 
 <style>

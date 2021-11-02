@@ -4,9 +4,9 @@
       <nav class="flex items-center justify-between flex-wrap bg-green-400 p-6">
         <div class="flex items-center flex-shrink-0 text-white mr-6">
           <cx-icon class="mr-3"></cx-icon>
-          <span class="font-semibold text-xl tracking-tight"
-            >Coin Exchange</span
-          >
+          <span class="font-semibold text-xl tracking-tight">
+            Coin Exchange
+          </span>
         </div>
         <div
           class="
@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import CxIcon from "@/components/CxIcon";
+import CxIcon from '@/components/CxIcon'
 
 export default {
-  name: "CxHeader",
+  name: 'CxHeader',
   components: { CxIcon },
-};
+}
 </script>
