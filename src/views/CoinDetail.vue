@@ -96,17 +96,44 @@
 
       <line-chart
         class="my-10"
-        :colors="['orange']"
+        :colors="['tomato']"
         :min="min"
         :max="max"
         :data="history.map((h) => [h.date, parseFloat(h.priceUsd).toFixed(2)])"
       />
+
+      <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+      <table>
+        <tr
+          v-for="market in markets"
+          :key="`${market.exchangeId}-${market.priceUsd}`"
+          class="border-b"
+        >
+          <td>
+            <b>{{ market.exchangeId }}</b>
+          </td>
+          <td>{{ market.priceUsd | dollar }}</td>
+          <td>{{ market.baseSymbol }} / {{ market.quoteSymbol }}</td>
+          <td>
+            <cx-button
+              v-if="!market.url"
+              :is-loading="market.isLoading || false"
+              @click="getWebsite(market)"
+              >Obtener Link</cx-button
+            >
+            <a v-else class="hover:underline text-green-600" target="_blanck">
+              {{ market.url }}
+            </a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
 import api from '@/api'
+import CxButton from '@/components/CxButton'
 
 export default {
   name: 'CoinDetail',
@@ -115,6 +142,7 @@ export default {
     return {
       asset: {},
       history: [],
+      markets: [],
       isLoading: false,
     }
   },
@@ -145,20 +173,39 @@ export default {
   },
 
   methods: {
+    getWebsite(exchange) {
+      this.$set(exchange, 'isLoading', true)
+
+      return api
+        .getExchange(exchange.exchangeId)
+        .then((res) => {
+          // exchange.url = res.exchangeUrl
+          this.$set(exchange, 'url', res.exchangeUrl)
+        })
+        .finally(() => {
+          this.$set(exchange, 'isLoading', false)
+        })
+    },
     getCoin() {
       this.isLoading = true
       const id = this.$route.params.id
 
-      Promise.all([api.getAsset(id), api.getAssetHistory(id)])
-        .then(([asset, history]) => {
+      Promise.all([
+        api.getAsset(id),
+        api.getAssetHistory(id),
+        api.getMarkets(id),
+      ])
+        .then(([asset, history, markets]) => {
           this.asset = asset
           this.history = history
+          this.markets = markets
         })
         .finally(() => {
           this.isLoading = false
         })
     },
   },
+  components: { CxButton },
 }
 </script>
 
