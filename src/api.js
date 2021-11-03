@@ -24,15 +24,26 @@ const getAssetHistory = (coin) => {
     .then((res) => res.data)
 }
 
-const getMarkets = (coin) => {
-  return fetch(`${url}/assets/${coin}/markets?limit=5`)
-    .then((res) => res.json())
-    .then((res) => res.data)
+const getMarkets = async (coin) => {
+  try {
+    let response = await fetch(`${url}/assets/${coin}/markets?limit=5`)
+    response = await response.json()
+
+    return response.data
+  } catch (error) {
+    console.info('No se ha encontrado el proveedor')
+  }
 }
-const getExchange = (id) => {
-  return fetch(`${url}/exchanges/${id}`)
-    .then((res) => res.json())
-    .then((res) => res.data)
+
+const getExchange = async (id) => {
+  try {
+    let response = await fetch(`${url}/exchanges/${id}`)
+    response = await response.json()
+
+    return response.data
+  } catch (error) {
+    console.info('No se ha encontrado el proveedor')
+  }
 }
 
 export default {
